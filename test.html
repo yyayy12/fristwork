@@ -1,0 +1,68 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<title>yu.html</title>
+<!-- <script type="text/javascript" src="jquery-1.9.0.min.js"></script> -->
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/css/esri.css">                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    <script src="https://js.arcgis.com/3.23/"></script>
+
+    <script type="text/javascript">
+        var map;
+        require(["esri/map", "dojo/domReady!"], function(Map) {
+        map = new Map("map", {
+          //basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
+          center: [-122.45, 37.75], // longitude, latitude
+        });
+       });
+    window.onload = function ()
+    {
+        var sel1 = document.getElementsByName ('selectDropDown1')[0];
+        var sel2 = document.getElementsByName ('selectDropDown2')[0];
+        //var jingdu = document.getElementById ('longitude').value;
+        //var weidu = document.getElementById ('latitude').value;
+        sel1.onchange = function ()
+        {
+            var val1 = this.value;
+            var val2 = sel2.value;
+            change(val2,val1);
+        }
+        
+        sel2.onchange = function ()
+        {
+            var val1 = this.value;
+            var val2 = sel1.value;
+            change(val1,val2);
+        }
+    }
+    function change(mapb,zoo)
+    {
+         
+        map.setBasemap(mapb);  
+        map.setZoom(zoo);
+        //map.centerat(longitude,latitude);
+    }
+</script>
+
+</head>
+<body> 
+    <div id="change">
+<!--
+        中心：<input type=text id="longitude"/>（经度）
+             <input type=text id="latitude" />（纬度）
+-->
+        级别：
+        <select name="selectDropDown1">
+            <option value="8">8</option>
+            <option value="13">13</option>
+            <option value="18">18</option>
+        </select>
+        底图：
+        <select name="selectDropDown2">
+            <option value="topo">topo</option>
+            <option value="osm">osm</option>
+            <option value="dark-gray">dark-gray</option>
+        </select>   
+    </div>
+    <div id="map"></div>
+</body>
+</html>
