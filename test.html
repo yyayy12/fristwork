@@ -10,58 +10,90 @@
         var map;
         require(["esri/map", "dojo/domReady!"], function(Map) {
         map = new Map("map", {
-          //basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
+          basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
           center: [-122.45, 37.75], // longitude, latitude
         });
        });
-    window.onload = function ()
+   /* window.onload = function ()
     {
-        var sel1 = document.getElementsByName ('selectDropDown1')[0];
-        var sel2 = document.getElementsByName ('selectDropDown2')[0];
-        //var jingdu = document.getElementById ('longitude').value;
-        //var weidu = document.getElementById ('latitude').value;
-        sel1.onchange = function ()
+        var jibie = document.getElementsByName ('selectDropDown1')[0];
+        var ditu = document.getElementsByName ('selectDropDown2')[0];
+        var jingdu = document.getElementById ('longitude').value;
+        var weidu = document.getElementById ('latitude').value;
+        var val1 = jibie.value;
+        var val2 = ditu.value;
+        jibie.onchange = function ()
         {
             var val1 = this.value;
-            var val2 = sel2.value;
-            change(val2,val1);
+            change(val2,val1,jingdu,weidu);
         }
         
-        sel2.onchange = function ()
+        ditu.onchange = function ()
         {
-            var val1 = this.value;
-            var val2 = sel1.value;
-            change(val1,val2);
+            var val2 = this.value;
+            change(val2,val1,jingdu,weidu);
         }
     }
-    function change(mapb,zoo)
+    */
+    function change(mapb,zoo,longitude,latitude)
     {
-         
+        var mappoint=[longitude,latitude]; 
         map.setBasemap(mapb);  
         map.setZoom(zoo);
-        //map.centerat(longitude,latitude);
+        map.centerAt(mappoint);
+        //map.centerAndZoom(mappoint,zoo);
+    }
+      
+    function change1()
+    {
+        
+        var jibie = document.getElementsByName ('selectDropDown1')[0];
+        var ditu = document.getElementsByName ('selectDropDown2')[0];
+        var jingdu = document.getElementById ('longitude').value;
+        var weidu = document.getElementById ('latitude').value;
+        var val1 = jibie.value;
+        var val2 = ditu.value;
+        jibie.onchange = function ()
+        {
+            var val1 = this.value;
+            //change(val2,val1,jingdu,weidu);
+        }
+        
+        ditu.onchange = function ()
+        {
+            var val2 = this.value;
+            //change(val2,val1,jingdu,weidu);
+        }
+        
+        var mappoint=[jingdu,weidu]; 
+        //alert(mappoint);
+        map.setBasemap(val2);  
+        map.setZoom(val1);
+        map.centerAt(mappoint);
     }
 </script>
 
 </head>
 <body> 
     <div id="change">
-<!--
-        中心：<input type=text id="longitude"/>（经度）
-             <input type=text id="latitude" />（纬度）
--->
+
+        中心：<input type="text" id="longitude"/>（经度）
+             <input type="text" id="latitude" />（纬度）
+
         级别：
-        <select name="selectDropDown1">
+        <select name="selectDropDown1" onchange="change1()">
             <option value="8">8</option>
             <option value="13">13</option>
             <option value="18">18</option>
         </select>
         底图：
-        <select name="selectDropDown2">
+        <select name="selectDropDown2" onchange="change1()">
             <option value="topo">topo</option>
             <option value="osm">osm</option>
             <option value="dark-gray">dark-gray</option>
-        </select>   
+        </select>
+        <input type="button" value="update" onclick="change1()"/>
+      
     </div>
     <div id="map"></div>
 </body>
