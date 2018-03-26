@@ -3,38 +3,31 @@
 <meta charset="utf-8" />
 <title>yu.html</title>
 <!-- <script type="text/javascript" src="jquery-1.9.0.min.js"></script> -->
-    <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/css/esri.css">                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/css/esri.css">                           <link rel="stylesheet" href="https://js.arcgis.com/3.23/dijit/themes/claro/claro.css">                 <style>
+      html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
+    </style>                                                                                                                                                                                                                                                                                                                                                                                                            
     <script src="https://js.arcgis.com/3.23/"></script>
 
     <script type="text/javascript">
         var map;
-        require(["esri/map", "dojo/domReady!"], function(Map) {
+        require(["esri/map", "esri/dijit/OverviewMap",
+        "dojo/parser", 
+
+        "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dojo/domReady!"], function(Map,OverviewMap, 
+        parser) {
+        parser.parse(); 
         map = new Map("map", {
           basemap: "topo",  //For full list of pre-defined basemaps, navigate to http://arcg.is/1JVo6Wd
           center: [-122.45, 37.75], // longitude, latitude
+          zoom:14
         });
+          var overviewMapDijit = new OverviewMap({
+          map: map,
+          visible: true
+        });
+        overviewMapDijit.startup();
        });
-   /* window.onload = function ()
-    {
-        var jibie = document.getElementsByName ('selectDropDown1')[0];
-        var ditu = document.getElementsByName ('selectDropDown2')[0];
-        var jingdu = document.getElementById ('longitude').value;
-        var weidu = document.getElementById ('latitude').value;
-        var val1 = jibie.value;
-        var val2 = ditu.value;
-        jibie.onchange = function ()
-        {
-            var val1 = this.value;
-            change(val2,val1,jingdu,weidu);
-        }
-        
-        ditu.onchange = function ()
-        {
-            var val2 = this.value;
-            change(val2,val1,jingdu,weidu);
-        }
-    }
-    */
+
     function change(mapb,zoo,longitude,latitude)
     {
         var mappoint=[longitude,latitude]; 
@@ -74,14 +67,27 @@
 </script>
 
 </head>
-<body> 
+<body class="claro">
+    <div data-dojo-type="dijit/layout/BorderContainer" 
+         data-dojo-props="design:'headline', gutters:false" 
+         style="width: 100%; height: 100%; margin:0;">
+    
+       <div id="map"
+           data-dojo-type="dijit/layout/ContentPane" 
+           data-dojo-props="region:'center'" 
+           style="padding:0">>
+       </div>
+       <div style="position:absolute; right:20px; top:10px; z-Index:999;"></div>
+      </div>
     <div id="change">
 
-        中心：<input type="text" id="longitude"/>（经度）
-             <input type="text" id="latitude" />（纬度）
+        中心：<input type="text" id="longitude" value="经度" onfocus="if(value=='经度')value=''" onblur="if(!value)value='经度'"/>
+             <input type="text" id="latitude" value="纬度" onfocus="if(value=='纬度')value=''" onblur="if(!value)value='纬度'"/>
 
         级别：
         <select name="selectDropDown1" onchange="change1()">
+            <option value="3">3</option>
+            <option value="5">5</option>
             <option value="8">8</option>
             <option value="13">13</option>
             <option value="18">18</option>
@@ -95,6 +101,5 @@
         <input type="button" value="update" onclick="change1()"/>
       
     </div>
-    <div id="map"></div>
 </body>
 </html>
